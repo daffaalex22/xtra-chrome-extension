@@ -1,10 +1,17 @@
 {
   "manifest_version": 3,
-  "name": "Hello Extensions",
-  "description": "Base Level Extension",
+  "name": "Reading Time",
+  "description": "Add reading time to Chrome Extension docs",
   "version": "1.0",
   "action": {
-    "default_popup": "hello.html",
-    "default_icon": "logo-color.svg"
-  }
+    "default_popup": "default.html"
+  },
+  "content_scripts": [
+    {
+      "js": ["scripts/chrome-docs.js"],
+      "matches": [
+        "https://developer.chrome.com/docs/extensions/*"
+      ]
+    }
+  ]
 }
