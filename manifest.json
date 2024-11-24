@@ -1,10 +1,24 @@
 {
   "manifest_version": 3,
-  "name": "Hello Extensions",
-  "description": "Base Level Extension",
+  "name": "Limited X",
+  "description": "Minimalize the X.com website",
   "version": "1.0",
   "action": {
-    "default_popup": "hello.html",
-    "default_icon": "logo-color.svg"
-  }
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "scripting",
+    "storage",
+    "activeTab"
+  ],
+  "content_scripts": [
+    {
+      "js": [
+        "scripts/elementRemover.js"
+      ],
+      "matches": [
+        "https://x.com/home*"
+      ]
+    }
+  ]
 }
