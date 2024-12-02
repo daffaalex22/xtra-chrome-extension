@@ -1,4 +1,4 @@
-div[role="tablist"] > div[role="presentation"]:first-child,
+div[aria-label="Home timeline"] > div:first-of-type div[role="presentation"]:first-of-type,
 div[data-testid="ScrollSnap-prevButtonWrapper"],
 div[data-testid="ScrollSnap-nextButtonWrapper"] {
   display: none
