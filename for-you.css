@@ -1,0 +1,5 @@
+div[role="tablist"] > div[role="presentation"]:first-child,
+div[data-testid="ScrollSnap-prevButtonWrapper"],
+div[data-testid="ScrollSnap-nextButtonWrapper"] {
+  display: none
+}

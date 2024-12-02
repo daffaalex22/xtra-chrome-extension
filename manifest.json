@@ -2,23 +2,20 @@
   "manifest_version": 3,
   "name": "Limited X",
   "description": "Minimalize the X.com website",
-  "version": "1.0",
+  "version": "0.1.1",
   "action": {
     "default_popup": "popup.html"
   },
   "permissions": [
     "scripting",
     "storage",
-    "activeTab"
+    "activeTab",
+    "webNavigation"
   ],
-  "content_scripts": [
-    {
-      "js": [
-        "scripts/elementRemover.js"
-      ],
-      "matches": [
-        "https://x.com/home*"
-      ]
-    }
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": [
+    "https://x.com/home"
   ]
 }
