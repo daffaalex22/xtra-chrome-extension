@@ -1,13 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
   const cb = {
     removeFY: document.getElementById('removeFY'),
-    removeTrends: document.getElementById('removeTrends')
+    removeTrends: document.getElementById('removeTrends'),
+    removeExplore: document.getElementById('removeExplore')
   };
 
   // Load saved settings
-  chrome.storage.sync.get(['removeFY', 'removeTrends'], (data) => {
+  chrome.storage.sync.get(['removeFY', 'removeTrends', 'removeExplore'], (data) => {
     cb.removeFY.checked = data.removeFY ?? true;
     cb.removeTrends.checked = data.removeTrends ?? true;
+    cb.removeExplore.checked = data.removeExplore ?? true;
   });
 
   // Save settings on change

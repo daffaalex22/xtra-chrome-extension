@@ -1,9 +1,9 @@
 const X_HOME_URL = "https://x.com/home";
 
 chrome.webNavigation.onCompleted.addListener(async (details) => {
-  const { removeFY, removeTrends } = await chrome.storage.sync.get(["removeFY", "removeTrends"]);
+  const { removeFY, removeTrends, removeExplore } = await chrome.storage.sync.get(["removeFY", "removeTrends", "removeExplore"]);
 
-  if (!removeFY && !removeTrends) return
+  if (!removeFY && !removeTrends && !removeExplore) return
 
   if (removeFY) {
     await chrome.scripting.insertCSS({
@@ -19,9 +19,16 @@ chrome.webNavigation.onCompleted.addListener(async (details) => {
     })
   }
 
+  if (removeTrends) {
+    await chrome.scripting.insertCSS({
+      files: ["explore.css"],
+      target: { tabId: details.tabId }
+    })
+  }
+
 }, { url: [{ urlEquals: X_HOME_URL }] });
 
-chrome.storage.sync.onChanged.addListener(async ({ removeFY, removeTrends }) => {
+chrome.storage.sync.onChanged.addListener(async ({ removeFY, removeTrends, removeExplore }) => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
   if(tab?.url !== X_HOME_URL) return
@@ -29,7 +36,7 @@ chrome.storage.sync.onChanged.addListener(async ({ removeFY, removeTrends }) => 
   // Debugging
   await chrome.scripting.executeScript({
     func: logger,
-    args: [{removeFY, removeTrends}],
+    args: [{removeFY, removeTrends, removeExplore}],
     target: { tabId: tab.id }
   })
 
@@ -61,6 +68,16 @@ chrome.storage.sync.onChanged.addListener(async ({ removeFY, removeTrends }) => 
       files: ["trends.css"],
       target: { tabId: tab.id }
     })
+  } else if (removeExplore?.newValue === true) {
+    await chrome.scripting.insertCSS({
+      files: ["explore.css"],
+      target: { tabId: tab.id }
+    })
+  } else if (removeExplore?.newValue === false) {
+    await chrome.scripting.removeCSS({
+      files: ["explore.css"],
+      target: { tabId: tab.id }
+    })
   }
 })
 
@@ -74,7 +91,8 @@ const clickFollowingTab = (selector) => {
   }
 }
 
-const logger = ({ var1, var2 }) => {
+const logger = ({ var1, var2, var3 }) => {
   console.log("var1", var1);
   console.log("var2", var2);
+  console.log("var3", var3);
 }
