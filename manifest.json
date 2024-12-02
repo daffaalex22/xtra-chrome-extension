@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Limited X",
-  "description": "Minimalize the X.com website",
+  "description": "Modify the X (twitter) website",
   "version": "0.1.1",
   "action": {
     "default_popup": "popup.html"
@@ -17,5 +17,11 @@
   },
   "host_permissions": [
     "https://x.com/home"
-  ]
+  ],
+  "icons": {
+    "16": "images/xtra-inverted.png",
+    "32": "images/xtra-inverted.png",
+    "48": "images/xtra-inverted.png",
+    "128": "images/xtra-inverted.png"
+  }
 }
