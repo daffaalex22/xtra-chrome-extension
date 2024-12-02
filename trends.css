@@ -1,0 +1,4 @@
+div[aria-label="Trending"] > div > div:nth-last-child(3),
+div[aria-label="Trending"] > div > div:nth-last-child(2) {
+  display: none !important;
+}

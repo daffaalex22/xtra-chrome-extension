@@ -1,17 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const checkboxes = {
-    removeFY: document.getElementById('removeFY')
+  const cb = {
+    removeFY: document.getElementById('removeFY'),
+    removeTrends: document.getElementById('removeTrends')
   };
 
   // Load saved settings
-  chrome.storage.sync.get(['removeFY'], (data) => {
-    checkboxes.removeFY.checked = data.removeFY ?? true;
+  chrome.storage.sync.get(['removeFY', 'removeTrends'], (data) => {
+    cb.removeFY.checked = data.removeFY ?? true;
+    cb.removeTrends.checked = data.removeTrends ?? true;
   });
 
   // Save settings on change
-  Object.keys(checkboxes).forEach(key => {
-    checkboxes[key].addEventListener('change', () => {
-      chrome.storage.sync.set({ [key]: checkboxes[key].checked });
+  Object.keys(cb).forEach(key => {
+    cb[key].addEventListener('change', () => {
+      chrome.storage.sync.set({ [key]: cb[key].checked });
     });
   });
 });
