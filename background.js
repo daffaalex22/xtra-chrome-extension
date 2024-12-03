@@ -19,7 +19,7 @@ chrome.webNavigation.onCompleted.addListener(async (details) => {
     })
   }
 
-  if (removeTrends) {
+  if (removeExplore) {
     await chrome.scripting.insertCSS({
       files: ["explore.css"],
       target: { tabId: details.tabId }

@@ -1,3 +1,4 @@
-a[aria-label="Search and explore"] {
+a[aria-label="Search and explore"],
+a[aria-label="Communities"] {
   display: none !important;
 }
