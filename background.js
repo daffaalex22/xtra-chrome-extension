@@ -33,13 +33,6 @@ chrome.storage.sync.onChanged.addListener(async ({ removeFY, removeTrends, remov
 
   if(tab?.url !== X_HOME_URL) return
 
-  // Debugging
-  await chrome.scripting.executeScript({
-    func: logger,
-    args: [{removeFY, removeTrends, removeExplore}],
-    target: { tabId: tab.id }
-  })
-
   if (removeFY?.newValue === true) {
     // Deleting the `For you` tab
     await chrome.scripting.insertCSS({
@@ -89,10 +82,4 @@ const clickFollowingTab = (selector) => {
   } else {
     console.log(`Element ${selector} not found!`);
   }
-}
-
-const logger = ({ var1, var2, var3 }) => {
-  console.log("var1", var1);
-  console.log("var2", var2);
-  console.log("var3", var3);
 }
