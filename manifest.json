@@ -27,10 +27,5 @@
   "content_scripts": [{
     "matches": ["https://x.com/*"],
     "js": ["content.js"]
-  }, {
-    "matches": ["https://x.com/*"],
-    "js": ["injectable.js"],
-    "run_at": "document_start",
-    "world": "MAIN"
   }]
 }
