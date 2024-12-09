@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Limited X",
+  "name": "Xtra",
   "description": "Modify the X (twitter) website",
   "version": "0.1.1",
   "action": {
@@ -23,5 +23,9 @@
     "32": "images/xtra-inverted.png",
     "48": "images/xtra-inverted.png",
     "128": "images/xtra-inverted.png"
-  }
+  },
+  "content_scripts": [{
+    "matches": ["https://x.com/*"],
+    "js": ["content.js"]
+  }]
 }
