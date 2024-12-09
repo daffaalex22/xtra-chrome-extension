@@ -1,13 +1,19 @@
 const X_HOME_URL = "https://x.com/home";
 
 chrome.webNavigation.onCompleted.addListener(async (details) => {
-  const { removeFY, removeTrends, removeExplore } = await chrome.storage.sync.get(["removeFY", "removeTrends", "removeExplore"]);
+  const { removeFY, removeTrends, removeExplore, removePaids } = await chrome.storage.sync.get(["removeFY", "removeTrends", "removeExplore", "removePaids"]);
 
-  if (!removeFY && !removeTrends && !removeExplore) return
+  if (!removeFY && !removeTrends && !removeExplore && !removePaids) return
 
   if (removeFY) {
     await chrome.scripting.insertCSS({
       files: ["for-you.css"],
+      target: { tabId: details.tabId }
+    })
+
+    await chrome.scripting.executeScript({
+      func: clickElement,
+      args: ['div[role="tablist"] > div[role="presentation"]:last-child > a'],
       target: { tabId: details.tabId }
     })
   }
@@ -26,9 +32,16 @@ chrome.webNavigation.onCompleted.addListener(async (details) => {
     })
   }
 
+  if (removePaids) {
+    await chrome.scripting.insertCSS({
+      files: ["paids.css"],
+      target: { tabId: details.tabId }
+    })
+  }
+
 }, { url: [{ urlEquals: X_HOME_URL }] });
 
-chrome.storage.sync.onChanged.addListener(async ({ removeFY, removeTrends, removeExplore }) => {
+chrome.storage.sync.onChanged.addListener(async ({ removeFY, removeTrends, removeExplore, removePaids }) => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
   if(tab?.url !== X_HOME_URL) return
@@ -42,7 +55,7 @@ chrome.storage.sync.onChanged.addListener(async ({ removeFY, removeTrends, remov
 
     // Selecting the `Following` tab
     await chrome.scripting.executeScript({
-      func: clickFollowingTab,
+      func: clickElement,
       args: ['div[role="tablist"] > div[role="presentation"]:last-child > a'],
       target: { tabId: tab.id }
     })
@@ -71,11 +84,21 @@ chrome.storage.sync.onChanged.addListener(async ({ removeFY, removeTrends, remov
       files: ["explore.css"],
       target: { tabId: tab.id }
     })
+  } else if (removePaids?.newValue === true) {
+    await chrome.scripting.removeCSS({
+      files: ["paids.css"],
+      target: { tabId: tab.id }
+    })
+  } else if (removePaids?.newValue === false) {
+    await chrome.scripting.removeCSS({
+      files: ["paids.css"],
+      target: { tabId: tab.id }
+    })
   }
 })
 
 // Used to select the `Following` tab
-const clickFollowingTab = (selector) => {
+const clickElement = (selector) => {
   const element = document.querySelector(selector);
   if (element) {
     element.click();
