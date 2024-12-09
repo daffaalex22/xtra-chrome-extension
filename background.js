@@ -1,4 +1,5 @@
 const X_HOME_URL = "https://x.com/home";
+const X_URL = "https://x.com/"
 
 chrome.webNavigation.onCompleted.addListener(async (details) => {
   const { removeFY, removeTrends, removeExplore, removePaids } = await chrome.storage.sync.get(["removeFY", "removeTrends", "removeExplore", "removePaids"]);
@@ -39,12 +40,12 @@ chrome.webNavigation.onCompleted.addListener(async (details) => {
     })
   }
 
-}, { url: [{ urlEquals: X_HOME_URL }] });
+}, { url: [{ urlPrefix: X_URL }] });
 
 chrome.storage.sync.onChanged.addListener(async ({ removeFY, removeTrends, removeExplore, removePaids }) => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-  if(tab?.url !== X_HOME_URL) return
+  if(!tab?.url?.includes(X_URL)) return
 
   if (removeFY?.newValue === true) {
     // Deleting the `For you` tab
@@ -85,7 +86,7 @@ chrome.storage.sync.onChanged.addListener(async ({ removeFY, removeTrends, remov
       target: { tabId: tab.id }
     })
   } else if (removePaids?.newValue === true) {
-    await chrome.scripting.removeCSS({
+    await chrome.scripting.insertCSS({
       files: ["paids.css"],
       target: { tabId: tab.id }
     })
